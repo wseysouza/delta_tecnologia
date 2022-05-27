@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "delta_tecnologia",
+    "slug": "delta_tecnologia",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "delta_tecnologia"
+}
