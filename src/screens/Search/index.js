@@ -1,0 +1,13 @@
+import React from 'react';
+import{HeaderScreens} from '../../components/HeaderScreens'
+
+import * as S from './styles';
+
+export function Search () {
+    return(
+        <S.Container>
+           <HeaderScreens title="Pesquisar"/>
+            
+        </S.Container>
+    )
+}

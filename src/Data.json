@@ -1,0 +1,22 @@
+[
+    {
+        "id": "1",
+        "nome": "maria",
+        "endereco": "Av. Rubem Bento Alves, 4005 São José - Caxias do Sul - RS"
+    },
+    {
+        "id": "2",
+        "nome": "juliana",
+        "endereco": "Rua Jardim das Flores da São Leopoldo, 203 Panazzolo - Caxias do Sul - RS"
+    },
+    {
+        "id": "3",
+        "nome": "joao",
+        "endereco": "Av. Farrapos, 4005 Rio branco - Porto Alegre - RS"
+    },
+    {
+        "id": "4",
+        "nome": "carlos",
+        "endereco": "Av. Rubem Bento Alves, 4005 São José - Porto Alegre - RS"
+    }
+]
