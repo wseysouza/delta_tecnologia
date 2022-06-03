@@ -3,10 +3,10 @@ import{HeaderScreens} from '../../components/HeaderScreens'
 
 import * as S from './styles';
 
-export function Search () {
+export function Search ({navigation}) {
     return(
         <S.Container>
-           <HeaderScreens title="Pesquisar"/>
+           <HeaderScreens title="Pesquisar" onPress={() => navigation.goBack()}/>
             
         </S.Container>
     )

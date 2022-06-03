@@ -8,7 +8,7 @@ import { Button } from '../../components/Form/Button';
 import { HeaderScreens } from '../../components/HeaderScreens';
 
 
-export function Register () {
+export function Register ({navigation}) {
   
   const [image, setImage] = useState(null);
 
@@ -30,7 +30,7 @@ export function Register () {
 
   return(
         <S.Container>
-            <HeaderScreens title="Cadastro"/>
+            <HeaderScreens title="Cadastro" onPress={() => navigation.goBack()}/>
             <S.Form>
               <S.Fields>
                 {image && <S.ImageAttached source={{ uri: image }} />}
