@@ -1,12 +1,12 @@
 import React, {useState}from 'react';
 import { useForm } from 'react-hook-form';
-import { Input } from '../../components/Form/Input';
 import * as ImagePicker from 'expo-image-picker';
 
-import * as S from './styles';
+import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
 import { HeaderScreens } from '../../components/HeaderScreens';
 
+import * as S from './styles';
 
 export function Register ({navigation}) {
   

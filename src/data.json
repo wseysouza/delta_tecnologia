@@ -1,26 +1,26 @@
 [
     {
         "id": "1",
-        "nome": "Marco",
-        "endereco": "Av. Rubem Bento Alves, 155 São José - Caxias do Sul - RS",
-        "photo": "./assets/one.jpg"
+        "name": "Marco",
+        "adress": "Av. Rubem Bento Alves, 155 São José - Caxias do Sul - RS",
+        "photo": "https://i2.wp.com/zipix.com.br/wp-content/uploads/2021/04/instagram-5.jpg?fit=1366%2C768&ssl=1"
     },
     {
         "id": "2",
-        "nome": "Joao",
-        "endereco": "Rua Jardim das Flores da São Leopoldo, 203 Panazzolo - Caxias do Sul - RS",
-        "photo": "./assets/two.jpg"
+        "name": "Joao",
+        "adress": "Rua Jardim das Flores da São Leopoldo, 203 Panazzolo - Caxias do Sul - RS",
+        "photo": "https://www.internetmatters.org/wp-content/uploads/2021/03/facebook-logo-new-600x315.png"
     },
     {
         "id": "3",
-        "nome": "Lucimara",
-        "endereco": "Av. Farrapos, 4005 Rio branco - Porto Alegre - RS",
-        "photo": "./assets/three.png"
+        "name": "Lucimara",
+        "adress": "Av. Farrapos, 4005 Rio branco - Porto Alegre - RS",
+        "photo": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Flickr_logo.png"
     },
     {
         "id": "4",
-        "nome": "Maria",
-        "endereco": "Av. Rubem Bento Alves, 305 São José - Porto Alegre - RS",
-        "photo": "./assets/four.jpeg"
+        "name": "Maria",
+        "adress": "Av. Rubem Bento Alves, 305 São José - Porto Alegre - RS",
+        "photo": "https://reactjs.org/logo-og.png"
     }
 ]
