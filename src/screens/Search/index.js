@@ -22,7 +22,7 @@ export function Search ({navigation}) {
     const {control, handleSubmit} = useForm()
 
     const onSubmit = (data) => {
-        setAluno({id: null})
+        setAluno({id:null})
         list.map(item => {
             if(item.name.toLowerCase() === data.name.toLowerCase()){
                 setAluno({
@@ -30,10 +30,6 @@ export function Search ({navigation}) {
                     name:item.name,
                     adress:item.adress,
                     photo:item.photo
-                })
-            } else if (aluno.id===undefined){
-                setAluno({
-                    id: null
                 })
             }
         })

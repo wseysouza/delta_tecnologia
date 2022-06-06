@@ -20,7 +20,7 @@ export function Delete ({navigation}) {
     const {control, handleSubmit} = useForm()
 
     const onSubmit = (data) => {
-        setAluno({id: null})
+        setAluno({id:null})
         list.map(item => {
             if(item.name.toLowerCase() === data.name.toLowerCase()){
                 setAluno({
@@ -28,10 +28,6 @@ export function Delete ({navigation}) {
                     name:item.name,
                     adress:item.adress,
                     photo:item.photo
-                })
-            } else if (aluno.id === undefined ){
-                setAluno({
-                    id: null,
                 })
             }
         })
@@ -53,7 +49,7 @@ export function Delete ({navigation}) {
                     control={control}
                     />
                     {aluno.id && <StudentDataBox item={aluno}/>}
-                    {aluno.id===null && <Text>* Aluno não encontrado, digite novamente!</Text>}
+                    {aluno.id === null && <Text>* Aluno não encontrado, digite novamente!</Text>}
                 </S.Fields>
                 <S.ViewButtons>
                     {aluno.id && <Button title="Deletar Aluno" theme={{color:"red"}}  onPress={() => handleDelete(aluno.name)} />}
