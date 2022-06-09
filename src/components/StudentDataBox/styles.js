@@ -9,7 +9,7 @@ export const Container = styled.View`
     align-items:center ;
 
     border-bottom-width: 1px;
-    border-bottom-color: white;
+    border-bottom-color: #ffffff;
     margin-top: 10px;
 `;
 
@@ -26,7 +26,7 @@ export const ColumContent = styled.View`
 export const NameStudent = styled.Text`
     font-size: 14px;
     font-weight: bold;
-    color: gray;
+    color: #808080;
 
     margin-bottom: 5px;
 `;
@@ -35,7 +35,7 @@ export const Adress = styled.Text`
     width: 100%;
 
     font-size: 14px;
-    color: gray;
+    color: #808080;
 `;
 
 export const Photo = styled.Image`

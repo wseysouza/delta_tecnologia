@@ -34,7 +34,7 @@ export const Buttons = styled.TouchableOpacity`
 
 export const TextButtons = styled.Text`
     font-weight: 500;
-    color: white;
+    color: #ffffff;
     font-size: 18px;
     text-align: center;
 `; 

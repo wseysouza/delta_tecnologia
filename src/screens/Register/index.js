@@ -6,11 +6,15 @@ import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
 import { HeaderScreens } from '../../components/HeaderScreens';
 
+import { api } from '../../services/api';
+
 import * as S from './styles';
+
 
 export function Register ({navigation}) {
   
   const [image, setImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -26,7 +30,18 @@ export function Register ({navigation}) {
   };
 
   const {control, handleSubmit} = useForm()
-  const onSubmit = (data) => console.warn({...data, photo:image})
+
+  const onSubmit =  async(data) => {
+    try {
+      setIsLoading(true)
+      await api.post("/Aluno",{...data, photo:image});
+      setIsLoading(false)
+    } catch (error) {
+      console.warn("error >> ", error)
+      setIsLoading(false)
+      
+    }
+  }
 
   return(
         <S.Container>
@@ -35,12 +50,12 @@ export function Register ({navigation}) {
               <S.Fields>
                 {image && <S.ImageAttached source={{ uri: image }} />}
                 <Input 
-                  name="nome"
+                  name="name"
                   placeholder="Nome"
                   control={control}
                 />
                 <Input 
-                  name="endereco"
+                  name="adress"
                   placeholder="Endereço"
                   control={control}
                 />
@@ -50,7 +65,7 @@ export function Register ({navigation}) {
                   <S.TextButtonImage>Anexar foto</S.TextButtonImage>
                 </S.ImageButton>
               </S.Fields>
-              <Button title="Cadastrar" onPress={handleSubmit(onSubmit)}/>
+              <Button title={isLoading ? "Carregando..." : "Cadastrar"} disabled={isLoading} onPress={handleSubmit(onSubmit)}/>
             </S.Form>
         </S.Container>
     )

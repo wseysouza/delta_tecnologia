@@ -13,5 +13,5 @@ export const MessageRow = styled.View`
 export const MessageText = styled.Text`
 	font-size: 30px;
 	font-weight: 500;
-	color: white;
+	color: #ffffff;
 `;

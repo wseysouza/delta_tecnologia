@@ -1,16 +1,12 @@
 import styled from 'styled-components/native'
 
 export const Container = styled.View`
-    background-color: #A2A2FF;
-    flex: 1;
-`;
-
-export const Form = styled.View`
-    flex: 1;
+    background-color:#E5E5E5 ;
     width: 100%;
     padding: 24px;
-    align-items: center;
-    justify-content:  space-between;
+    border-radius: 5px;    
+    margin-top: 15px;
+
 `;
 
 export const ImageButton = styled.TouchableOpacity`
@@ -30,8 +26,8 @@ export const TextButtonImage = styled.Text`
 `;
 
 export const ImageAttached = styled.Image`
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     border-radius: 100px;
     margin-bottom: 15px;
 `;

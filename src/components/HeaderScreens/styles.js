@@ -12,7 +12,7 @@ export const Title = styled.Text`
     width:80% ;
     font-size: 24px;
     font-weight: 500;
-    color: white;
+    color: #ffffff;
     text-align: center;
 `;
 

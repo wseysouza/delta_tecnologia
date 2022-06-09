@@ -5,40 +5,53 @@ import {Text} from 'react-native'
 import { HeaderScreens } from '../../components/HeaderScreens';
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
-import list from '../../data.json';
+import { StudentDataBox } from '../../components/StudentDataBox';
+
+import { api } from '../../services/api';
 
 import * as S from './styles';
-import { StudentDataBox } from '../../components/StudentDataBox';
+import { RegisterEdit } from './component/RegisterEdit';
+
 
 export function Edit ({navigation}) {
     const[aluno, setAluno] = useState({});
-    const[studentEdit, setStudentEdit] = useState(false);
+    const[listStudent, setListStudent] = useState([]);
 
-    useEffect(() =>{
-        setAluno({})
+    const getAlunos = async () => {
+        try {
+            const response = await api.get("/Aluno");
+            setListStudent(response.data.results)
+        } catch (error) {
+            console.warn("error >> ", error)
+        }
+    }  
+  
+    useEffect(() => {
+        getAlunos();
     },[])
+
+    function handleUpdateStudent() {
+        getAlunos();
+        onSubmit();
+    } 
     
     const {control, handleSubmit} = useForm()
 
     const onSubmit = (data) => {
         setAluno({id:null})
-        list.map(item => {
+        listStudent.map(item => {
             if(item.name.toLowerCase() === data.name.toLowerCase()){
                 setAluno({
-                    id: item.id,
+                    id: item.objectId,
                     name:item.name,
                     adress:item.adress,
                     photo:item.photo
                 })
+                
             }
-        })
+        })        
     }
 
-
-    const handleEdit = (name) => {
-        setStudentEdit(true)
-        console.warn("Aluno deletado:", name)
-    }
     return(
         <S.Container>
             <HeaderScreens title="Editar" onPress={() => navigation.goBack()}/>
@@ -52,26 +65,10 @@ export function Edit ({navigation}) {
                     {aluno.id && <StudentDataBox item={aluno}/>}
                     {aluno.id===null && <Text>* Aluno não encontrado, digite novamente!</Text>}
 
-                    {studentEdit && 
-                        <>
-                            <Input 
-                                name="nome"
-                                placeholder="Nome"
-                                control={control}
-                                defaultValue={aluno.name}
-                            />
-                            <Input 
-                                name="endereco"
-                                placeholder="Endereço"
-                                control={control}
-                                defaultValue={aluno.adress}
-                            />
-                        </>
-                    }
+                    {aluno.id && <RegisterEdit id={aluno.id} updateStudent={() => handleUpdateStudent()}/>}
 
                 </S.Fields>
                 <S.ViewButtons>
-                    {aluno.id && <Button title="Editar Aluno?" theme={{color:"blue"}}  onPress={() => handleEdit(aluno.name)} />}
                     <Button title="Buscar" onPress={handleSubmit(onSubmit)}/>
                 </S.ViewButtons>
             </S.Form>

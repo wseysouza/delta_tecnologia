@@ -2,31 +2,42 @@ import React,{useState, useEffect} from 'react';
 import { useForm } from 'react-hook-form';
 import {Text} from 'react-native'
 
-import{HeaderScreens} from '../../components/HeaderScreens'
+import { HeaderScreens } from '../../components/HeaderScreens'
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
-import list from '../../data.json';
+import { StudentDataBox } from '../../components/StudentDataBox';
+
+import { api } from '../../services/api';
 
 import * as S from './styles';
-import { StudentDataBox } from '../../components/StudentDataBox';
 
 
 export function Search ({navigation}) {
     
     const[aluno, setAluno] = useState({});
+    const[listStudent, setListStudent] = useState([]);
 
-    // useEffect(() =>{
-    //     setAluno({})
-    // },[])
+    const getAlunos = async () => {
+        try {
+            const response = await api.get("/Aluno");
+            setListStudent(response.data.results)
+        } catch (error) {
+            console.warn("error >> ", error)
+        }
+    }  
+  
+    useEffect(() => {
+        getAlunos();
+    },[])
     
     const {control, handleSubmit} = useForm()
 
     const onSubmit = (data) => {
         setAluno({id:null})
-        list.map(item => {
+        listStudent.map(item => {
             if(item.name.toLowerCase() === data.name.toLowerCase()){
                 setAluno({
-                    id: item.id,
+                    id: item.objectId,
                     name:item.name,
                     adress:item.adress,
                     photo:item.photo

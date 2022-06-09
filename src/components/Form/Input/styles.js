@@ -8,6 +8,6 @@ export const Container = styled.TextInput`
     background-color:#F1EFF7;
     border-radius: 5px;
     margin-bottom: 8px;
-    color: black;
+    color: #000000;
     font-weight: bold;
 `;
