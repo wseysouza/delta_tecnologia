@@ -1,69 +1,69 @@
 import React,{useState, useEffect} from 'react';
 import { useForm } from 'react-hook-form';
-import {Text} from 'react-native'
+import { Text, FlatList } from 'react-native';
 
-import { HeaderScreens } from '../../components/HeaderScreens'
+import { HeaderScreens } from '../../components/HeaderScreens';
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
 import { StudentDataBox } from '../../components/StudentDataBox';
 
-import { api } from '../../services/api';
+import { useDelta } from '../../hooks/delta';
 
 import * as S from './styles';
 
 
 export function Search ({navigation}) {
-    
-    const[aluno, setAluno] = useState({});
-    const[listStudent, setListStudent] = useState([]);
 
-    const getAlunos = async () => {
-        try {
-            const response = await api.get("/Aluno");
-            setListStudent(response.data.results)
-        } catch (error) {
-            console.warn("error >> ", error)
-        }
-    }  
-  
+    const {getListStudent, listStudents} = useDelta();
+    const [StudentSearch, setStudentSearch] = useState([]);
+    const [studentNotFound, setStudentNotFound] = useState(false);
+
     useEffect(() => {
-        getAlunos();
-    },[])
-    
-    const {control, handleSubmit} = useForm()
+        getListStudent();
+    }, [])
+
+    const newStudants = [];
+
+    const { control, handleSubmit, resetField } = useForm()
 
     const onSubmit = (data) => {
-        setAluno({id:null})
-        listStudent.map(item => {
-            if(item.name.toLowerCase() === data.name.toLowerCase()){
-                setAluno({
-                    id: item.objectId,
-                    name:item.name,
-                    adress:item.adress,
-                    photo:item.photo
-                })
+        setStudentNotFound(true)
+        listStudents.map(student => {
+            if(student.name.toLowerCase() === data.name.toLowerCase()){
+                newStudants.push(student)
+                setStudentNotFound(false)
             }
         })
+        setStudentSearch(newStudants)
+    }
+
+    const handleClear = () => {
+        resetField("name")
+        setStudentSearch([])
+        setStudentNotFound(false)
     }
 
     return(
-        
         <S.Container>
-           <HeaderScreens title="Pesquisar Aluno" onPress={() => navigation.goBack()}/>
-           <S.Form>
-              <S.Fields>
-                <Input 
-                  name="name"
-                  placeholder="Digite o nome do aluno"
-                  control={control}
+            <HeaderScreens title="Pesquisar Aluno" onPress={() => navigation.goBack()}/>
+            <S.FieldsSearch>
+                <Input
+                    name="name"
+                    placeholder="Digite o nome do aluno"
+                    control={control}
                 />
-                {aluno.id && <StudentDataBox item={aluno}/>}
-                {aluno.id===null && <Text>* Aluno não encontrado, digite novamente!</Text>}
-              </S.Fields>
-            
-              <Button title="Pesquisar" onPress={handleSubmit(onSubmit)}/>
-            </S.Form>
-            
+                <Button title="Pesquisar" onPress={handleSubmit(onSubmit)}/>
+                <Button title="Limpar" onPress={handleClear}/>
+                {studentNotFound && <Text>* Aluno não encontrado, digite novamente!</Text>}
+            </S.FieldsSearch>
+            <S.TitleList>{StudentSearch.length > 0 ? "Resultado da Pesquisa" : "Lista de Alunos"}</S.TitleList>
+            <FlatList
+                data={StudentSearch.length > 0 ? StudentSearch :listStudents }
+                keyExtractor={(item) => item.objectId.toString()}
+                renderItem={({ item }) => (
+                    <StudentDataBox item={item}/>
+                )}
+            />
         </S.Container>
     )
 }

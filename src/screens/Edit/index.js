@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useForm } from 'react-hook-form';
-import {Text} from 'react-native'
+import { Text, ScrollView } from 'react-native'
 
 import { HeaderScreens } from '../../components/HeaderScreens';
 import { Input } from '../../components/Form/Input';
@@ -32,7 +32,7 @@ export function Edit ({navigation}) {
 
     function handleUpdateStudent() {
         getAlunos();
-        onSubmit();
+        setAluno({})
     } 
     
     const {control, handleSubmit} = useForm()
@@ -46,8 +46,7 @@ export function Edit ({navigation}) {
                     name:item.name,
                     adress:item.adress,
                     photo:item.photo
-                })
-                
+                })  
             }
         })        
     }
@@ -55,24 +54,23 @@ export function Edit ({navigation}) {
     return(
         <S.Container>
             <HeaderScreens title="Editar" onPress={() => navigation.goBack()}/>
-            <S.Form>
-                <S.Fields>
-                    <Input 
-                    name="name"
-                    placeholder="Digite o nome do aluno"
-                    control={control}
-                    />
-                    {aluno.id && <StudentDataBox item={aluno}/>}
-                    {aluno.id===null && <Text>* Aluno não encontrado, digite novamente!</Text>}
-
-                    {aluno.id && <RegisterEdit id={aluno.id} updateStudent={() => handleUpdateStudent()}/>}
-
-                </S.Fields>
-                <S.ViewButtons>
-                    <Button title="Buscar" onPress={handleSubmit(onSubmit)}/>
-                </S.ViewButtons>
-            </S.Form>
-            
+                <S.Form>
+                    <S.BoxScroll vertical>
+                        <S.Fields>
+                            <Input 
+                                name="name"
+                                placeholder="Digite o nome do aluno"
+                                control={control}
+                            />
+                            {aluno.id && <StudentDataBox item={aluno}/>}
+                            {aluno.id===null && <Text>* Aluno não encontrado, digite novamente!</Text>}
+                            {aluno.id && <RegisterEdit id={aluno.id} updateStudent={() => handleUpdateStudent()}/>}
+                        </S.Fields>
+                    </S.BoxScroll>
+                    <S.ViewButtons>
+                        <Button title="Buscar" onPress={handleSubmit(onSubmit)}/>
+                    </S.ViewButtons>
+                </S.Form>
         </S.Container>
     )
 }

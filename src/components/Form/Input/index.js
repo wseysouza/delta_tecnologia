@@ -10,6 +10,6 @@ export function Input ({name, placeholder, control}) {
         name,
     })
     return(
-        <S.Container placeholder={placeholder} onChangeText={field.onChange} value={field.value}/>
+        <S.Container placeholder={placeholder} onChangeText={field.onChange} value={field.value} />
     )
 }

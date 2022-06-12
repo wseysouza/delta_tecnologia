@@ -36,3 +36,10 @@ export const Fields = styled.View`
     width: 100%;
     align-items: center;
 `;
+
+export const TextError = styled.Text`
+    width: 100%;
+    text-align: left;
+    margin-bottom: 15px;
+    padding-left: 10px;
+`;

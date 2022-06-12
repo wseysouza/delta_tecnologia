@@ -1,5 +1,7 @@
 import React, {useState}from 'react';
 import { useForm } from 'react-hook-form';
+import Toast from 'react-native-root-toast';
+
 import * as ImagePicker from 'expo-image-picker';
 
 import { Input } from '../../../../components/Form/Input';
@@ -14,6 +16,8 @@ export function RegisterEdit ({id, updateStudent}) {
   
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [nameEmpty, setNameEmpty] = useState(false);
+  const [adressEmpty, setAdressEmpty] = useState(false);
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -32,11 +36,41 @@ export function RegisterEdit ({id, updateStudent}) {
 
   const onSubmit =  async(data) => {
     try {
+        setNameEmpty(false) 
+        setAdressEmpty(false)
         setIsLoading(true)
-        console.warn(">>ID", id)
-        await api.put(`/Aluno/${id}`, {...data, photo:image});
+
+        if(data.name && data.adress){
+            setNameEmpty(false)   
+            setAdressEmpty(false)      
+            await api.put(`/Aluno/${id}`, {...data, photo:image});
+            setIsLoading(false)
+            updateStudent()
+
+            Toast.show(
+                `Aluno ${data.name}, editado com sucesso!!!`,
+                {
+                    duration: 10000,
+                    position: Toast.positions.CENTER,
+                    animation: true,
+                    hideOnPress: true,
+                    backgroundColor: '#808080',
+                    textColor: '#fff',
+                    visible: true,
+                },
+            );
+        }
+
+        if (data.name===""){
+            setNameEmpty(true)
+            setIsLoading(false)
+          }
+  
+        if (data.adress===""){
+        setAdressEmpty(true)
         setIsLoading(false)
-        updateStudent()
+        }
+        
     } catch (error) {
         console.warn("error >> ", error)
         setIsLoading(false)
@@ -49,14 +83,16 @@ export function RegisterEdit ({id, updateStudent}) {
                     {image && <S.ImageAttached source={{ uri: image }} />}
                     <Input 
                         name="name"
-                        placeholder="Nome"
+                        placeholder="Editar nome"
                         control={control}
                     />
+                    {nameEmpty && <S.TextError>*campo obrigatório</S.TextError>}
                     <Input 
                         name="adress"
-                        placeholder="Endereço"
+                        placeholder="Editar endereço"
                         control={control}
                     />
+                    {adressEmpty && <S.TextError>*campo obrigatório</S.TextError>}
                     <S.ImageButton 
                         onPress={pickImage} 
                     >

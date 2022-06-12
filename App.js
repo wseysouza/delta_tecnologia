@@ -1,12 +1,15 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { MainStackNavigator } from './src/navigation/AppNavigator';
+import AppProvider from './src/hooks';
 
 export default function App() {
   return(
-    <NavigationContainer>
-      <MainStackNavigator />
-    </NavigationContainer>
+    <AppProvider>
+      <NavigationContainer>
+        <MainStackNavigator />
+      </NavigationContainer>
+    </AppProvider>
   )
 }
 

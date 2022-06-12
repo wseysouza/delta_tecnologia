@@ -3,12 +3,12 @@ import styled from 'styled-components/native'
 export const Container = styled.View`
     background-color: #A2A2FF;
     flex: 1;
+    padding: 24px;
 `;
 
 export const Form = styled.View`
     flex: 1;
     width: 100%;
-    padding: 24px;
     align-items: center;
     justify-content:  space-between;
 `;
@@ -39,4 +39,11 @@ export const ImageAttached = styled.Image`
 export const Fields = styled.View`
     width: 100%;
     align-items: center;
+`;
+
+export const TextError = styled.Text`
+    width: 100%;
+    text-align: left;
+    margin-bottom: 15px;
+    padding-left: 10px;
 `;
