@@ -34,7 +34,7 @@ export function Edit ({navigation}) {
         getListStudent();
     }
 
-    const {control, handleSubmit, resetField} = useForm()
+    const {control, handleSubmit, resetField, getValues} = useForm()
 
     const onSubmit = (data) => {
         searchStudent(data)
@@ -49,6 +49,11 @@ export function Edit ({navigation}) {
         resetField("name")
         clearSearchStudent()
     }
+
+    useEffect(() => {
+        console.warn(">>>entrei")
+        searchStudent({name:getValues('name')}, false);
+    },[listStudents])
 
     return(
         <S.Container>

@@ -1,11 +1,21 @@
-import React, {useState, useEffect} from 'react';
-import { MaterialIcons, FontAwesome5, FontAwesome} from '@expo/vector-icons'; 
+import React, {useEffect} from 'react';
+import { MaterialIcons, FontAwesome5, FontAwesome} from '@expo/vector-icons';
 import { HeaderHome } from '../../components/HeaderHome'
+
+import { useDelta } from '../../hooks/delta';
 
 import * as S from './styles';
 
 export function Home ({navigation}) {
-   
+    const {
+        getListStudent,
+        clearSearchStudent
+    } = useDelta();
+
+    useEffect(() => {
+        getListStudent();
+        clearSearchStudent()
+    },[])
     return(
         <S.Container>
             <HeaderHome/>

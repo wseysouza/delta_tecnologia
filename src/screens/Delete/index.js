@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useForm } from 'react-hook-form';
 import { Text, FlatList } from 'react-native';
 
@@ -19,16 +19,19 @@ export function Delete ({navigation}) {
       studentFilter,
       searchStudent,
       clearSearchStudent,
-      studentNotFound
+      studentNotFound,
   } = useDelta();
 
-  const {control, handleSubmit, resetField, getValues} = useForm()
+  const [disableDelete, setDisableDelete] = useState(false)
+
+  const {control, handleSubmit, resetField, getValues } = useForm()
 
   const onSubmit = (data) => {
     searchStudent(data);
   }
 
   const handleDelete = (id) => {
+    setDisableDelete(true)
     deleteStudent(id);
     getListStudent();
     clearSearchStudent();
@@ -44,6 +47,11 @@ export function Delete ({navigation}) {
     getListStudent();
     clearSearchStudent()
   },[])
+
+  useEffect(() => {
+    searchStudent({name:getValues('name')}, false);
+    setDisableDelete(false)
+  },[listStudents])
 
   return(
     <S.Container>
@@ -66,7 +74,7 @@ export function Delete ({navigation}) {
             data={studentFilter?.length > 0 ? studentFilter : listStudents }
             keyExtractor={(item) => item?.objectId.toString()}
             renderItem={({ item }) => (
-              <StudentDataBox item={item} icon={"delete"} onPress={()=>handleDelete(item.objectId)}/>
+              <StudentDataBox item={item} icon={"delete"} onPress={()=>handleDelete(item.objectId)} disabled={disableDelete}/>
             )}
           />
         </>

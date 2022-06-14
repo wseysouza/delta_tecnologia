@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import Toast from 'react-native-root-toast';
+import { toast } from '../components/Toast';
 
 import { api } from '../services/api';
 
@@ -10,7 +10,6 @@ export const DeltaProvider = ({children}) => {
     const [studentFilter, setStudentFilter] = useState([]);
     const [studentNotFound, setStudentNotFound] = useState(false);
 
-
     const clearSearchStudent = () => {
         setStudentFilter([]);
         setStudentNotFound(false);
@@ -20,7 +19,7 @@ export const DeltaProvider = ({children}) => {
         if(callDelete){
             setStudentNotFound(true)
         }
-        const filterList = listStudents.filter(student => {
+        const filterList =  listStudents.filter(student => {
             if(student.name.toLowerCase().trim() === data.name.toLowerCase().trim()){
                 setStudentNotFound(false)
                 return student;
@@ -29,6 +28,7 @@ export const DeltaProvider = ({children}) => {
         setStudentFilter(filterList)
     },[listStudents])
 
+
     const getListStudent = async () => {
 
         try {
@@ -36,120 +36,39 @@ export const DeltaProvider = ({children}) => {
             setListStudents(data.results);
         } catch (error) {
             console.warn("error >> ", error)
-            Toast.show(
-                `Lista de Alunos não encontrada`,
-                {
-                    duration: 10000,
-                    position: Toast.positions.CENTER,
-                    animation: true,
-                    hideOnPress: true,
-                    backgroundColor: '#808080',
-                    textColor: '#fff',
-                    visible: true,
-                },
-            );
+            toast.warn({ menssage: "Lista de alunos não encontrada" });
         }
     }
 
-    const postStudent = async(student) => {
+    const postStudent = async (student) => {
         try {
             await api.post("/Aluno",student);
-            Toast.show(
-                `${student.name}, cadastrado com sucesso!!!`,
-                {
-                  duration: 10000,
-                  position: Toast.positions.CENTER,
-                  animation: true,
-                  hideOnPress: true,
-                  backgroundColor: '#808080',
-                  textColor: '#fff',
-                  visible: true,
-                },
-            );
+            toast.success({ menssage: "Aluno cadastrado com sucesso!!!" });
         } catch (error) {
             console.warn("typeError >> ", error)
-            Toast.show(
-                `Erro ao cadastrar`,
-                {
-                    duration: 10000,
-                    position: Toast.positions.CENTER,
-                    animation: true,
-                    hideOnPress: true,
-                    backgroundColor: '#808080',
-                    textColor: '#fff',
-                    visible: true,
-                },
-            );
+            toast.warn({ menssage: "Erro ao cadastrar" });
         }
-
     }
 
     const putStudent = async (id, student) => {
         try {
             await api.put(`/Aluno/${id}`, student);
-            Toast.show(
-                `Aluno ${student.name}, editado com sucesso!!!`,
-                {
-                    duration: 10000,
-                    position: Toast.positions.CENTER,
-                    animation: true,
-                    hideOnPress: true,
-                    backgroundColor: '#808080',
-                    textColor: '#fff',
-                    visible: true,
-                },
-            );
+            toast.success({ menssage: "Aluno alterado com sucesso!!!" });
         } catch (error) {
             console.warn("typeError >> ", error)
-            Toast.show(
-                `Erro ao editar`,
-                {
-                    duration: 10000,
-                    position: Toast.positions.CENTER,
-                    animation: true,
-                    hideOnPress: true,
-                    backgroundColor: '#808080',
-                    textColor: '#fff',
-                    visible: true,
-                },
-            );
+            toast.warn({ menssage: "Erro ao editar" });
         }
-
     }
 
     const deleteStudent = async (id) => {
         try {
             await api.delete(`/Aluno/${id}`);
-            Toast.show(
-                `Aluno deletado com sucesso!!!`,
-                {
-                    duration: 10000,
-                    position: Toast.positions.CENTER,
-                    animation: true,
-                    hideOnPress: true,
-                    backgroundColor: '#808080',
-                    textColor: '#fff',
-                    visible: true,
-                },
-            );
+            toast.success({ menssage: "Aluno deletado com sucesso" });
         } catch (error) {
             console.warn("typeError >> ", error)
-            Toast.show(
-                `Erro ao deletar`,
-                {
-                    duration: 10000,
-                    position: Toast.positions.CENTER,
-                    animation: true,
-                    hideOnPress: true,
-                    backgroundColor: '#808080',
-                    textColor: '#fff',
-                    visible: true,
-                },
-            );
+            toast.warn({ menssage: "Erro ao deletar" });
         }
     }
-
-
 
     return(
         <DeltaContext.Provider value={{
