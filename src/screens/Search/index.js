@@ -14,34 +14,31 @@ import * as S from './styles';
 
 export function Search ({navigation}) {
 
-    const {getListStudent, listStudents} = useDelta();
-    const [StudentSearch, setStudentSearch] = useState([]);
-    const [studentNotFound, setStudentNotFound] = useState(false);
+    const {
+        getListStudent,
+        listStudents,
+        studentFilter,
+        searchStudent,
+        studentNotFound,
+        clearSearchStudent
+    } = useDelta();
 
-    useEffect(() => {
-        getListStudent();
-    }, [])
-
-    const newStudants = [];
-
-    const { control, handleSubmit, resetField } = useForm()
+    const {control, handleSubmit, resetField} = useForm()
 
     const onSubmit = (data) => {
-        setStudentNotFound(true)
-        listStudents.map(student => {
-            if(student.name.toLowerCase() === data.name.toLowerCase()){
-                newStudants.push(student)
-                setStudentNotFound(false)
-            }
-        })
-        setStudentSearch(newStudants)
+        searchStudent(data);
     }
 
     const handleClear = () => {
         resetField("name")
-        setStudentSearch([])
-        setStudentNotFound(false)
+        clearSearchStudent()
     }
+
+    useEffect(() => {
+        getListStudent();
+        clearSearchStudent();
+    }, [])
+
 
     return(
         <S.Container>
@@ -56,14 +53,17 @@ export function Search ({navigation}) {
                 <Button title="Limpar" onPress={handleClear}/>
                 {studentNotFound && <Text>* Aluno não encontrado, digite novamente!</Text>}
             </S.FieldsSearch>
-            <S.TitleList>{StudentSearch.length > 0 ? "Resultado da Pesquisa" : "Lista de Alunos"}</S.TitleList>
-            <FlatList
-                data={StudentSearch.length > 0 ? StudentSearch :listStudents }
-                keyExtractor={(item) => item.objectId.toString()}
-                renderItem={({ item }) => (
-                    <StudentDataBox item={item}/>
-                )}
-            />
+            {listStudents.length > 0 &&
+            <>
+                <S.TitleList>{studentFilter?.length > 0 ? "Resultado da Pesquisa" : "Lista de Alunos"}</S.TitleList>
+                <FlatList
+                    data={studentFilter?.length > 0 ? studentFilter : listStudents }
+                    keyExtractor={(item) => item.objectId.toString()}
+                    renderItem={({ item }) => (
+                        <StudentDataBox item={item}/>
+                    )}
+                />
+            </>}
         </S.Container>
     )
 }

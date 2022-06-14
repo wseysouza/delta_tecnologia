@@ -1,16 +1,11 @@
 import styled from 'styled-components/native'
 
 export const Container = styled.View`
-    background-color: #A2A2FF;
-    flex: 1;
+    background-color:#E5E5E5 ;
     padding: 24px;
-`;
-
-export const Form = styled.View`
-    flex: 1;
-    width: 100%;
-    align-items: center;
-    justify-content:  space-between;
+    border-radius: 5px;
+    margin: 20% 24px 0;
+    elevation:20;
 `;
 
 export const ImageButton = styled.TouchableOpacity`
@@ -30,19 +25,16 @@ export const TextButtonImage = styled.Text`
 `;
 
 export const ImageAttached = styled.Image`
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     border-radius: 100px;
     margin-bottom: 15px;
 `;
 
 export const Fields = styled.View`
+    margin-top: 20px;
     width: 100%;
     align-items: center;
-`;
-
-export const BoxButtons = styled.View`
-    width: 100%;
 `;
 
 export const TextError = styled.Text`
@@ -51,3 +43,11 @@ export const TextError = styled.Text`
     margin-bottom: 15px;
     padding-left: 10px;
 `;
+
+export const Header = styled.View`
+    width: 100%;
+    align-items: flex-end;
+    margin: 0 0 20px;
+`;
+
+export const ButtonClose = styled.TouchableOpacity``;

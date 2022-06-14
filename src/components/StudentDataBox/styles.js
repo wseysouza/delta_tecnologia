@@ -19,7 +19,6 @@ export const ColumContent = styled.View`
     flex-direction: column;
     padding: 5px;
     justify-content: center;
-    background-color: red;
 `;
 
 export const NameStudent = styled.Text`

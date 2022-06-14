@@ -1,76 +1,82 @@
 import React, {useState, useEffect} from 'react';
 import { useForm } from 'react-hook-form';
-import { Text, ScrollView } from 'react-native'
+import { Text, FlatList } from 'react-native'
 
 import { HeaderScreens } from '../../components/HeaderScreens';
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
 import { StudentDataBox } from '../../components/StudentDataBox';
+import { ModalEditStudent } from './component/ModalEditStudent';
 
-import { api } from '../../services/api';
+import { useDelta } from '../../hooks/delta';
 
 import * as S from './styles';
-import { RegisterEdit } from './component/RegisterEdit';
 
 
 export function Edit ({navigation}) {
-    const[aluno, setAluno] = useState({});
-    const[listStudent, setListStudent] = useState([]);
+    const {
+        getListStudent,
+        listStudents,
+        searchStudent,
+        studentNotFound,
+        studentFilter,
+        clearSearchStudent
+    } = useDelta();
+    const [studentEdit, setStudentEdit] = useState({});
+    const [modal, setModal] = useState(false);
 
-    const getAlunos = async () => {
-        try {
-            const response = await api.get("/Aluno");
-            setListStudent(response.data.results)
-        } catch (error) {
-            console.warn("error >> ", error)
-        }
-    }  
-  
     useEffect(() => {
-        getAlunos();
+        getListStudent();
+        clearSearchStudent()
     },[])
 
     function handleUpdateStudent() {
-        getAlunos();
-        setAluno({})
-    } 
-    
-    const {control, handleSubmit} = useForm()
+        getListStudent();
+    }
+
+    const {control, handleSubmit, resetField} = useForm()
 
     const onSubmit = (data) => {
-        setAluno({id:null})
-        listStudent.map(item => {
-            if(item.name.toLowerCase() === data.name.toLowerCase()){
-                setAluno({
-                    id: item.objectId,
-                    name:item.name,
-                    adress:item.adress,
-                    photo:item.photo
-                })  
-            }
-        })        
+        searchStudent(data)
+    }
+
+    const handleEdit =(student) => {
+        setStudentEdit(student)
+        setModal(true)
+    }
+
+    const handleClear = () => {
+        resetField("name")
+        clearSearchStudent()
     }
 
     return(
         <S.Container>
             <HeaderScreens title="Editar" onPress={() => navigation.goBack()}/>
-                <S.Form>
-                    <S.BoxScroll vertical>
-                        <S.Fields>
-                            <Input 
-                                name="name"
-                                placeholder="Digite o nome do aluno"
-                                control={control}
-                            />
-                            {aluno.id && <StudentDataBox item={aluno}/>}
-                            {aluno.id===null && <Text>* Aluno não encontrado, digite novamente!</Text>}
-                            {aluno.id && <RegisterEdit id={aluno.id} updateStudent={() => handleUpdateStudent()}/>}
-                        </S.Fields>
-                    </S.BoxScroll>
-                    <S.ViewButtons>
-                        <Button title="Buscar" onPress={handleSubmit(onSubmit)}/>
-                    </S.ViewButtons>
-                </S.Form>
+            <S.FieldsSearch>
+                <Input
+                    name="name"
+                    placeholder="Digite o nome do aluno"
+                    control={control}
+                />
+                <Button title="Limpar" onPress={handleClear}/>
+                <Button title="Buscar" onPress={handleSubmit(onSubmit)}/>
+                {studentNotFound && <Text>* Aluno não encontrado, digite novamente!</Text>}
+
+            </S.FieldsSearch>
+            {listStudents.length > 0 &&
+                <>
+                    <S.TitleList>{studentFilter?.length > 0 ? "Resultado da Pesquisa" : "Lista de Alunos"}</S.TitleList>
+                    <FlatList
+                        data={studentFilter?.length > 0 ? studentFilter : listStudents}
+                        keyExtractor={(item) => item?.objectId.toString()}
+                        renderItem={({ item }) => (
+                            <StudentDataBox item={item} icon={"edit"} onPress={()=>handleEdit(item)}/>
+                        )}
+                    />
+                </>
+            }
+            <ModalEditStudent student={studentEdit} openModal={modal} closeModal={() => setModal(false)} updateStudent={() => handleUpdateStudent()}/>
         </S.Container>
     )
 }

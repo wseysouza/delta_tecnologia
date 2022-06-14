@@ -3,7 +3,7 @@ import * as S from './styles'
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
-export function StudentDataBox ({item, icon, handleAction}) {
+export function StudentDataBox ({item, icon, ...rest}) {
 
     return(
         <S.Container>
@@ -15,9 +15,9 @@ export function StudentDataBox ({item, icon, handleAction}) {
                 <S.Adress>{`Endereço: ${item.adress}`}</S.Adress>
             </S.ColumContent>
             {icon &&
-                <S.Action onPress={() =>handleAction(item.objectId)}>
-                    {icon === "delete" && <MaterialIcons name="delete" size={40} color="black" />}
-                    {icon === "edit" && <Entypo name="edit" size={40} color="black" />}
+                <S.Action {...rest}>
+                    {icon === "delete" && <MaterialIcons name="delete" size={40} color="#808080" />}
+                    {icon === "edit" && <Entypo name="edit" size={40} color="#808080" />}
                 </S.Action>
             }
 

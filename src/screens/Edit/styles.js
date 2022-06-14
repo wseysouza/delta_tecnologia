@@ -1,32 +1,23 @@
 import styled from 'styled-components/native'
 
 export const Container = styled.View`
+    height: 100%;
     background-color: #75DDD1;
     flex: 1;
     padding: 24px;
 `;
 
-export const Form = styled.View`
-    flex: 1;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    height:50% ;
-    position: relative;
-`;
-
-export const Fields = styled.View`
+export const FieldsSearch = styled.View`
     width: 100%;
     align-items: center;
 `;
 
-export const ViewButtons = styled.View`
+export const TitleList = styled.Text`
     width: 100%;
-    align-content: space-between;
-`;
-
-
-export const BoxScroll = styled.ScrollView`
-    width: 100%;
-
+    padding:20px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+    font-weight: 500;
 `;
