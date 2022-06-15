@@ -1,8 +1,12 @@
 import React from 'react';
 import Toast from 'react-native-root-toast';
 
+interface Props {
+    menssage: string
+}
+
 export const toast = {
-    success: ({ menssage }) => Toast.show(
+    success: ({ menssage }: Props) => Toast.show(
         menssage,
         {
             duration: 1000,
@@ -14,7 +18,7 @@ export const toast = {
             visible: true,
         },
     ),
-    warn: ({ menssage }) => Toast.show(
+    warn: ({ menssage }: Props) => Toast.show(
         menssage,
         {
             duration: 1000,

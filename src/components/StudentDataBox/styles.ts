@@ -1,4 +1,5 @@
 import styled from 'styled-components/native'
+import { TouchableOpacity } from 'react-native';
 
 export const Container = styled.View`
     width: 100%;
@@ -13,8 +14,12 @@ export const Container = styled.View`
     padding: 10px;
 `;
 
-export const ColumContent = styled.View`
-    width: ${props => props.width};
+interface PropsWidth {
+    boxWidth: string
+}
+
+export const ColumContent = styled.View<PropsWidth>`
+    width: ${props => props.boxWidth};
     display: flex;
     flex-direction: column;
     padding: 5px;
@@ -44,4 +49,4 @@ export const Photo = styled.Image`
     margin-right: 10px;
 `;
 
-export const Action = styled.TouchableOpacity``;
+export const Action = styled(TouchableOpacity)``;

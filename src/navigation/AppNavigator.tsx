@@ -10,13 +10,13 @@ import { Search } from '../screens/Search';
 const { Navigator, Screen } = createStackNavigator();
 
 export function MainStackNavigator() {
-  return (
-    <Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-      <Screen name="Home" component={Home} />
-      <Screen name="Edit" component={Edit} />
-      <Screen name="Delete" component={Delete} />
-      <Screen name="Register" component={Register} />
-      <Screen name="Search" component={Search} />
-    </Navigator>
-  );
+    return (
+        <Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+            <Screen name="Home" component={Home} />
+            <Screen name="Edit" component={Edit} />
+            <Screen name="Delete" component={Delete} />
+            <Screen name="Register" component={Register} />
+            <Screen name="Search" component={Search} />
+        </Navigator>
+    );
 }

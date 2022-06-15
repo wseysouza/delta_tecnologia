@@ -5,7 +5,6 @@ export const Container = styled.View`
     padding: 24px;
     border-radius: 5px;
     margin: 20% 24px 0;
-    elevation:20;
 `;
 
 export const ImageButton = styled.TouchableOpacity`

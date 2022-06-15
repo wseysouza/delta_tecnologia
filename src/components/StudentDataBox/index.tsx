@@ -1,16 +1,26 @@
-import React from 'react'
-import * as S from './styles'
-import { MaterialIcons } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
+import React from 'react';
+import { TouchableOpacityProps } from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import * as S from './styles';
 
-export function StudentDataBox ({ item, icon, ...rest }) {
+interface Props extends TouchableOpacityProps {
+    item: {
+        photo?: string,
+        name: string,
+        adress: string,
+    },
+    icon?: string,
+}
 
-    return(
+export function StudentDataBox({ item, icon, ...rest }: Props) {
+
+    return (
         <S.Container>
             <S.Photo source={{
                 uri: item.photo
             }} />
-            <S.ColumContent width={icon? "75%" : "85%" }>
+            <S.ColumContent boxWidth={icon ? "75%" : "85%"}>
                 <S.NameStudent>{`Nome: ${item.name}`}</S.NameStudent>
                 <S.Adress>{`Endereço: ${item.adress}`}</S.Adress>
             </S.ColumContent>
