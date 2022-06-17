@@ -26,17 +26,12 @@ export function Edit({ navigation }: StackHeaderProps) {
     } = useDelta();
     const [studentEdit, setStudentEdit] = useState({ objectId: "", name: "", adress: "" });
     const [modal, setModal] = useState(false);
-    const [upList, setUpList] = useState(false)
-
 
     useEffect(() => {
         getListStudent();
         clearSearchStudent()
     }, [])
 
-    function handleUpdateStudent() {
-        getListStudent();
-    }
 
     const { control, handleSubmit, resetField, getValues } = useForm()
 
@@ -82,7 +77,7 @@ export function Edit({ navigation }: StackHeaderProps) {
                     />
                 </>
             }
-            <ModalEditStudent nameSearch={getValues('name')} student={studentEdit} openModal={modal} closeModal={() => setModal(false)} updateStudent={() => handleUpdateStudent()} />
+            <ModalEditStudent nameSearch={getValues('name')} student={studentEdit} openModal={modal} closeModal={() => setModal(false)} />
         </S.Container>
     )
 }

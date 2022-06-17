@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useController, UseControllerProps } from 'react-hook-form';
 
 import * as S from './styles';
@@ -14,6 +14,7 @@ export function Input({ name, placeholder, control }: Props) {
         defaultValue: '',
         name,
     })
+
     return (
         <S.Container placeholder={placeholder} onChangeText={field.onChange} value={field.value} />
     )

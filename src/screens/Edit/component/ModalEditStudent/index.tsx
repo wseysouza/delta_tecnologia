@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Modal } from 'react-native';
 
@@ -19,25 +19,19 @@ interface Props {
         adress: string,
         photo?: string,
     },
-    updateStudent: () => void,
     openModal: boolean,
     closeModal: () => void,
     nameSearch: string
 }
 
 
-export function ModalEditStudent({ nameSearch, student, updateStudent, openModal, closeModal }: Props) {
-    const {
-        putStudent,
-        getListStudent,
-        clearSearchStudent,
-        searchStudent
-    } = useDelta();
+export function ModalEditStudent({ nameSearch, student, openModal, closeModal }: Props) {
 
     const [image, setImage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [nameEmpty, setNameEmpty] = useState(false);
     const [adressEmpty, setAdressEmpty] = useState(false);
+    const { putStudent, getListStudent } = useDelta();
 
     const pickImage = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
@@ -52,15 +46,7 @@ export function ModalEditStudent({ nameSearch, student, updateStudent, openModal
         }
     };
 
-    const { control, handleSubmit, resetField, getValues, setValue } = useForm()
-
-    useEffect(() => {
-        resetField("name")
-        resetField("adress")
-        setImage("")
-    }, [closeModal])
-
-
+    const { control, handleSubmit, resetField, getValues } = useForm()
 
     const onSubmit = () => {
 
@@ -71,8 +57,6 @@ export function ModalEditStudent({ nameSearch, student, updateStudent, openModal
         setIsLoading(true)
 
         if (data.name && data.adress) {
-            setNameEmpty(false)
-            setAdressEmpty(false)
             if (image === "") {
                 putStudent(student.objectId, { ...data, photo: null }, nameSearch);
             } else {
@@ -81,10 +65,8 @@ export function ModalEditStudent({ nameSearch, student, updateStudent, openModal
             setIsLoading(false)
             setTimeout(() => {
                 getListStudent()
-            }, 3000);
-            clearSearchStudent();
-            //searchStudent({ name: data.name }, false);
-            updateStudent()
+            }, 2000);
+            //clearSearchStudent();
             resetField("name")
             resetField("adress")
             setImage("")
@@ -102,11 +84,18 @@ export function ModalEditStudent({ nameSearch, student, updateStudent, openModal
         }
     }
 
+    useEffect(() => {
+        resetField("name")
+        resetField("adress")
+        setImage("")
+    }, [closeModal])
+
     return (
         <Modal
             animationType='slide'
             visible={openModal}
             transparent={true}
+
         >
             <S.Container>
                 <S.Header>
@@ -117,12 +106,13 @@ export function ModalEditStudent({ nameSearch, student, updateStudent, openModal
 
                 <StudentDataBox item={student} />
 
-                <S.Fields>
+                <S.Fields >
                     {image !== "" && <S.ImageAttached source={{ uri: image }} />}
                     <Input
                         name="name"
                         placeholder="Editar nome"
                         control={control}
+                        defaultValue={student.name}
                     />
                     {nameEmpty && <S.TextError>*campo obrigatório</S.TextError>}
                     <Input
@@ -136,8 +126,8 @@ export function ModalEditStudent({ nameSearch, student, updateStudent, openModal
                     >
                         <S.TextButtonImage>Trocar foto</S.TextButtonImage>
                     </S.ImageButton>
+                    <Button title={isLoading ? "Carregando..." : "Editar Aluno"} disabled={isLoading} containerColor={"#0000ff"} onPress={handleSubmit(onSubmit)} />
                 </S.Fields>
-                <Button title={isLoading ? "Carregando..." : "Editar Aluno"} disabled={isLoading} containerColor={"#0000ff"} onPress={handleSubmit(onSubmit)} />
             </S.Container>
         </Modal>
     )
