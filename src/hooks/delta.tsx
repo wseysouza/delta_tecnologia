@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, { createContext, useCallback, useContext, useState, useEffect } from 'react';
 import { toast } from '../components/Toast';
 
 import { api } from '../services/api';
@@ -7,13 +7,13 @@ export interface StudentProps {
     objectId: string,
     name: string,
     adress: string,
-    photo: string,
+    photo?: string,
 }
 
 export interface PutPostStudentProps {
-    name?: string,
+    name: string,
     adress?: string,
-    photo?: string,
+    photo?: string | null,
 }
 
 export interface DataStudentProps {
@@ -29,39 +29,53 @@ export interface DeltaContextData {
     searchStudent: (data: DataStudentProps, callDelete?: boolean) => void;
     getListStudent(): Promise<void>;
     postStudent: (student: PutPostStudentProps) => void;
-    putStudent: (id: string, student: PutPostStudentProps) => void;
-    deleteStudent: (id: string) => void;
+    putStudent: (id: string, student: PutPostStudentProps, nameSearch: string) => void;
+    deleteStudent: (id: string, nameStudent: string) => void;
 }
 
 
 const DeltaContext = createContext<DeltaContextData>({} as DeltaContextData)
 
 export const DeltaProvider: React.FC = ({ children }) => {
-    const [listStudents, setListStudents] = useState<StudentProps[]>([])
     const [studentFilter, setStudentFilter] = useState<StudentProps[]>([]);
     const [studentNotFound, setStudentNotFound] = useState(false);
+    const [listStudents, setListStudents] = useState<StudentProps[]>([])
+    const [nameStudent, setNameStudent] = useState("")
 
     const clearSearchStudent = () => {
         setStudentFilter([]);
         setStudentNotFound(false);
+        setNameStudent("")
     }
 
     const searchStudent = useCallback((data: DataStudentProps, callDelete = true) => {
         if (callDelete) {
             setStudentNotFound(true)
         }
-        const filterList = listStudents.filter(student => {
-            if (student.name.toLowerCase().trim() === data.name.toLowerCase().trim()) {
-                setStudentNotFound(false)
-                return student;
-            }
-        })
-        setStudentFilter(filterList)
+        if (data.name !== "" && data.name !== undefined) {
+            const filterList = listStudents.filter((student) => {
+                if (student.name.toLowerCase().trim().match(data.name.toLowerCase().trim())) {
+                    setStudentNotFound(false)
+                    return student
+                }
+            })
+            setStudentFilter(filterList)
+        }
     }, [listStudents])
 
+    useEffect(() => {
+        if (nameStudent !== "" && nameStudent !== undefined) {
+            const filterList = listStudents.filter((student) => {
+                if (student.name.toLowerCase().trim().match(nameStudent.toLowerCase().trim())) {
+                    setStudentNotFound(false)
+                    return student
+                }
+            })
+            setStudentFilter(filterList)
+        }
+    }, [listStudents])
 
     const getListStudent = async () => {
-
         try {
             const { data } = await api.get("/Aluno");
             setListStudents(data.results);
@@ -81,7 +95,8 @@ export const DeltaProvider: React.FC = ({ children }) => {
         }
     }
 
-    const putStudent = async (id: string, student: PutPostStudentProps) => {
+    const putStudent = async (id: string, student: PutPostStudentProps, nameSearch: string) => {
+        setNameStudent(nameSearch)
         try {
             await api.put(`/Aluno/${id}`, student);
             toast.success({ menssage: "Aluno alterado com sucesso!!!" });
@@ -91,7 +106,8 @@ export const DeltaProvider: React.FC = ({ children }) => {
         }
     }
 
-    const deleteStudent = async (id: string) => {
+    const deleteStudent = async (id: string, nameStudent: string) => {
+        setNameStudent(nameStudent)
         try {
             await api.delete(`/Aluno/${id}`);
             toast.success({ menssage: "Aluno deletado com sucesso" });

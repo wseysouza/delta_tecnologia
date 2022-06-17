@@ -13,6 +13,10 @@ import { StackHeaderProps } from '@react-navigation/stack';
 
 import * as S from './styles';
 
+interface imageProps {
+
+}
+
 export function Register({ navigation }: StackHeaderProps) {
     const { postStudent } = useDelta();
     const [image, setImage] = useState("");
@@ -44,7 +48,11 @@ export function Register({ navigation }: StackHeaderProps) {
         if (data.name && data.adress) {
             setNameEmpty(false)
             setAdressEmpty(false)
-            postStudent({ ...data, photo: image });
+            if (image === "") {
+                postStudent({ ...data, photo: null });
+            } else {
+                postStudent({ ...data, photo: image });
+            }
             setIsLoading(false)
             resetField("name")
             resetField("adress")

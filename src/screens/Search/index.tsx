@@ -28,7 +28,6 @@ export function Search({ navigation }: StackHeaderProps) {
     const { control, handleSubmit, resetField, getValues } = useForm()
 
     const onSubmit = () => {
-
         searchStudent({ name: getValues('name') });
     }
 
@@ -60,6 +59,7 @@ export function Search({ navigation }: StackHeaderProps) {
                 <>
                     <S.TitleList>{studentFilter?.length > 0 ? "Resultado da Pesquisa" : "Lista de Alunos"}</S.TitleList>
                     <FlatList
+                        showsVerticalScrollIndicator={false}
                         data={studentFilter?.length > 0 ? studentFilter : listStudents}
                         keyExtractor={(item) => item.objectId.toString()}
                         renderItem={({ item }) => (

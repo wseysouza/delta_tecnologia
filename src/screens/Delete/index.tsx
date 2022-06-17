@@ -12,7 +12,6 @@ import { StackHeaderProps } from '@react-navigation/stack';
 
 import * as S from './styles';
 
-
 export function Delete({ navigation }: StackHeaderProps) {
     const {
         getListStudent,
@@ -24,21 +23,22 @@ export function Delete({ navigation }: StackHeaderProps) {
         studentNotFound,
     } = useDelta();
 
-    const [disableDelete, setDisableDelete] = useState(false)
-
     const { control, handleSubmit, resetField, getValues } = useForm()
+    const [disabledDelete, setDisabledDelete] = useState(false)
 
     const onSubmit = () => {
-        searchStudent({ name: getValues('name') }, true);
+        searchStudent({ name: getValues('name') });
     }
 
-    const handleDelete = (id: string) => {
-        setDisableDelete(true)
-        deleteStudent(id);
-        getListStudent();
-        clearSearchStudent();
-
-        searchStudent({ name: getValues('name') }, false);
+    const handleDelete = async (id: string) => {
+        setDisabledDelete(true)
+        deleteStudent(id, getValues('name'));
+        setTimeout(() => {
+            getListStudent()
+        }, 3000);
+        setTimeout(() => {
+            setDisabledDelete(false)
+        }, 3500);
     }
 
     const handleClear = () => {
@@ -50,11 +50,6 @@ export function Delete({ navigation }: StackHeaderProps) {
         getListStudent();
         clearSearchStudent()
     }, [])
-
-    useEffect(() => {
-        searchStudent({ name: getValues('name') }, false);
-        setDisableDelete(false)
-    }, [listStudents])
 
     return (
         <S.Container>
@@ -74,10 +69,11 @@ export function Delete({ navigation }: StackHeaderProps) {
                 <>
                     <S.TitleList>{studentFilter?.length > 0 ? "Resultado da Pesquisa" : "Lista de Alunos"}</S.TitleList>
                     <FlatList
+                        showsVerticalScrollIndicator={false}
                         data={studentFilter?.length > 0 ? studentFilter : listStudents}
                         keyExtractor={(item) => item.objectId.toString()}
                         renderItem={({ item }) => (
-                            <StudentDataBox item={item} icon={"delete"} onPress={() => handleDelete(item.objectId)} disabled={disableDelete} />
+                            <StudentDataBox item={item} icon={disabledDelete ? "auto-delete" : "delete"} onPress={() => handleDelete(item.objectId)} disabled={disabledDelete} />
                         )}
                     />
                 </>

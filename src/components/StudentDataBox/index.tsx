@@ -14,7 +14,6 @@ interface Props extends TouchableOpacityProps {
 }
 
 export function StudentDataBox({ item, icon, ...rest }: Props) {
-
     return (
         <S.Container>
             <S.Photo source={{
@@ -26,7 +25,7 @@ export function StudentDataBox({ item, icon, ...rest }: Props) {
             </S.ColumContent>
             {icon &&
                 <S.Action {...rest}>
-                    {icon === "delete" && <MaterialIcons name="delete" size={35} color="#808080" />}
+                    {(icon === "delete" || icon === "auto-delete") && <MaterialIcons name={icon} size={35} color="#808080" />}
                     {icon === "edit" && <Entypo name="edit" size={35} color="#808080" />}
                 </S.Action>
             }

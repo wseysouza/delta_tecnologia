@@ -24,8 +24,10 @@ export function Edit({ navigation }: StackHeaderProps) {
         studentFilter,
         clearSearchStudent
     } = useDelta();
-    const [studentEdit, setStudentEdit] = useState({ objectId: "", name: "", adress: "", photo: "" });
+    const [studentEdit, setStudentEdit] = useState({ objectId: "", name: "", adress: "" });
     const [modal, setModal] = useState(false);
+    const [upList, setUpList] = useState(false)
+
 
     useEffect(() => {
         getListStudent();
@@ -52,9 +54,6 @@ export function Edit({ navigation }: StackHeaderProps) {
         clearSearchStudent()
     }
 
-    useEffect(() => {
-        searchStudent({ name: getValues('name') }, false);
-    }, [listStudents])
 
     return (
         <S.Container>
@@ -74,6 +73,7 @@ export function Edit({ navigation }: StackHeaderProps) {
                 <>
                     <S.TitleList>{studentFilter?.length > 0 ? "Resultado da Pesquisa" : "Lista de Alunos"}</S.TitleList>
                     <FlatList
+                        showsVerticalScrollIndicator={false}
                         data={studentFilter?.length > 0 ? studentFilter : listStudents}
                         keyExtractor={(item) => item?.objectId.toString()}
                         renderItem={({ item }) => (
@@ -82,7 +82,7 @@ export function Edit({ navigation }: StackHeaderProps) {
                     />
                 </>
             }
-            <ModalEditStudent student={studentEdit} openModal={modal} closeModal={() => setModal(false)} updateStudent={() => handleUpdateStudent()} />
+            <ModalEditStudent nameSearch={getValues('name')} student={studentEdit} openModal={modal} closeModal={() => setModal(false)} updateStudent={() => handleUpdateStudent()} />
         </S.Container>
     )
 }

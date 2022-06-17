@@ -4,22 +4,12 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { HeaderHome } from '../../components/HeaderHome'
 
-import { useDelta } from '../../hooks/delta';
-
 import { StackHeaderProps } from '@react-navigation/stack';
 
 import * as S from './styles';
 
 export function Home({ navigation }: StackHeaderProps) {
-    const {
-        getListStudent,
-        clearSearchStudent
-    } = useDelta();
 
-    useEffect(() => {
-        getListStudent();
-        clearSearchStudent()
-    }, [])
     return (
         <S.Container>
             <HeaderHome />

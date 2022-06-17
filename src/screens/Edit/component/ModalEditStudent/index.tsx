@@ -22,10 +22,11 @@ interface Props {
     updateStudent: () => void,
     openModal: boolean,
     closeModal: () => void,
+    nameSearch: string
 }
 
 
-export function ModalEditStudent({ student, updateStudent, openModal, closeModal }: Props) {
+export function ModalEditStudent({ nameSearch, student, updateStudent, openModal, closeModal }: Props) {
     const {
         putStudent,
         getListStudent,
@@ -72,12 +73,17 @@ export function ModalEditStudent({ student, updateStudent, openModal, closeModal
         if (data.name && data.adress) {
             setNameEmpty(false)
             setAdressEmpty(false)
-
-            putStudent(student.objectId, { ...data, photo: image });
+            if (image === "") {
+                putStudent(student.objectId, { ...data, photo: null }, nameSearch);
+            } else {
+                putStudent(student.objectId, { ...data, photo: image }, nameSearch);
+            }
             setIsLoading(false)
-            getListStudent();
+            setTimeout(() => {
+                getListStudent()
+            }, 3000);
             clearSearchStudent();
-            searchStudent({ name: data.name }, false);
+            //searchStudent({ name: data.name }, false);
             updateStudent()
             resetField("name")
             resetField("adress")
